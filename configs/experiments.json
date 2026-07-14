@@ -1,0 +1,168 @@
+{
+  "defaults": {
+    "namespace": "tamias-eval",
+    "root": "/data/tamias-artifact",
+    "duration_minutes": 1440,
+    "deadline_grace_minutes": 30,
+    "trials": 10,
+    "concurrent_trials_per_node": 5,
+    "debug_sleep_seconds": 0,
+    "shm_size": "24Gi",
+    "tamias_distfuzz_cpu": "5",
+    "distfuzz_cpu": "5",
+    "distfuzz_memory": "16Gi"
+  },
+  "ablation_modes": {
+    "rand": {
+      "strategy": "rand",
+      "msg_mode": "none",
+      "mut_opt": "random",
+      "random_label": "R",
+      "pct_label": "P"
+    },
+    "mut_inp": {
+      "strategy": "rand,par_cmd_ns",
+      "msg_mode": "none",
+      "mut_opt": "random",
+      "random_label": "R-IM",
+      "pct_label": "P-IM"
+    },
+    "mut_all": {
+      "strategy": "rand,par_cmd",
+      "msg_mode": "none",
+      "mut_opt": "random",
+      "random_label": "R-ISM",
+      "pct_label": "P-ISM"
+    }
+  },
+  "experiments": {
+    "ablation": {
+      "description": "Tamias ablation across random-walk and PCT schedulers.",
+      "targets": {
+        "redis": {
+          "image": "tamias_redis_fuzz",
+          "env": "configs/env/default.json",
+          "concurrent_trials_per_node": 5
+        },
+        "mongo": {
+          "image": "tamias_mongo_fuzz",
+          "env": "configs/env/default.json",
+          "concurrent_trials_per_node": 5
+        },
+        "mysql": {
+          "image": "tamias_mysql_fuzz",
+          "env": "configs/env/default.json",
+          "concurrent_trials_per_node": 5
+        },
+        "etcd": {
+          "image": "tamias_etcd_fuzz",
+          "env": "configs/env/default.json",
+          "concurrent_trials_per_node": 5
+        },
+        "nuraft": {
+          "image": "tamias_nuraft_fuzz",
+          "env": "configs/env/default.json",
+          "concurrent_trials_per_node": 5
+        },
+        "braft": {
+          "image": "tamias_braft_fuzz",
+          "env": "configs/env/default.json",
+          "concurrent_trials_per_node": 5
+        }
+      }
+    },
+    "distfuzz_comparison": {
+      "description": "Tamias versus DistFuzz on the targets supported by both systems.",
+      "targets": {
+        "etcd": {
+          "systems": {
+            "tamias": {
+              "runner": "tamias",
+              "run_name": "distfuzz_etcd_mut_all",
+              "image": "tamias_distfuzz_etcd_fuzz",
+              "env": "configs/env/distfuzz.json",
+              "strategy": "rand,par_cmd",
+              "pctcp": true,
+              "msg_mode": "none",
+              "mut_opt": "random",
+              "concurrent_trials_per_node": 5
+            },
+            "distfuzz": {
+              "runner": "distfuzz",
+              "run_name": "distfuzz_etcd",
+              "image": "tamias_distfuzz_eval",
+              "distfuzz_path": "etcd_test",
+              "concurrent_trials_per_node": 5
+            }
+          }
+        },
+        "nuraft": {
+          "systems": {
+            "tamias": {
+              "runner": "tamias",
+              "run_name": "nuraft_mut_all",
+              "image": "tamias_distfuzz_nuraft_fuzz",
+              "env": "configs/env/distfuzz-nuraft.json",
+              "strategy": "rand,par_cmd",
+              "pctcp": true,
+              "msg_mode": "none",
+              "mut_opt": "random",
+              "concurrent_trials_per_node": 5
+            },
+            "distfuzz": {
+              "runner": "distfuzz",
+              "run_name": "distfuzz_nuraft",
+              "image": "tamias_distfuzz_eval",
+              "distfuzz_path": "nuraft_test",
+              "concurrent_trials_per_node": 5
+            }
+          }
+        },
+        "redis_raft": {
+          "systems": {
+            "tamias": {
+              "runner": "tamias",
+              "run_name": "redis_raft_mut_all",
+              "image": "tamias_redis_raft_fuzz",
+              "env": "configs/env/distfuzz.json",
+              "strategy": "rand,par_cmd",
+              "pctcp": true,
+              "msg_mode": "none",
+              "mut_opt": "random",
+              "concurrent_trials_per_node": 5
+            },
+            "distfuzz": {
+              "runner": "distfuzz",
+              "run_name": "distfuzz_redis_raft",
+              "image": "tamias_distfuzz_eval",
+              "distfuzz_path": "redisraft_test",
+              "concurrent_trials_per_node": 5
+            }
+          }
+        },
+        "braft": {
+          "systems": {
+            "tamias": {
+              "runner": "tamias",
+              "run_name": "braft_mut_all",
+              "image": "tamias_braft_fuzz",
+              "env": "configs/env/distfuzz-c220g5.json",
+              "strategy": "rand,par_cmd",
+              "pctcp": true,
+              "msg_mode": "none",
+              "mut_opt": "random",
+              "concurrent_trials_per_node": 5
+            },
+            "distfuzz": {
+              "runner": "distfuzz",
+              "run_name": "distfuzz_braft",
+              "image": "tamias_distfuzz_eval",
+              "distfuzz_path": "braft_test",
+              "concurrent_trials_per_node": 5
+            }
+          }
+        }
+      }
+    }
+  }
+}

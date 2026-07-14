@@ -1,0 +1,5 @@
+{
+  "nyx_dir": "/cntr_nyx_dir",
+  "num_executors": 5,
+  "snapshot_path": ""
+}

@@ -1,0 +1,18 @@
+{
+  "name": "ablation_mysql",
+  "description": "MySQL ablation study for Figures 8-9, Table 3, and Table 4. Each job is one scheduler/mode config with explicit node placement.",
+  "defaults": {
+    "duration_minutes": 1440,
+    "deadline_grace_minutes": 30,
+    "trials": 10,
+    "concurrent_trials_per_node": 5
+  },
+  "jobs": [
+    {"id": "mysql_random_rand", "experiment": "ablation", "target": "mysql", "scheduler": "random", "mode": "rand", "nodes": ["node1", "node2"]},
+    {"id": "mysql_random_mut_inp", "experiment": "ablation", "target": "mysql", "scheduler": "random", "mode": "mut_inp", "nodes": ["node3", "node4"]},
+    {"id": "mysql_random_mut_all", "experiment": "ablation", "target": "mysql", "scheduler": "random", "mode": "mut_all", "nodes": ["node5", "node6"]},
+    {"id": "mysql_pct_rand", "experiment": "ablation", "target": "mysql", "scheduler": "pct", "mode": "rand", "nodes": ["node1", "node2"]},
+    {"id": "mysql_pct_mut_inp", "experiment": "ablation", "target": "mysql", "scheduler": "pct", "mode": "mut_inp", "nodes": ["node3", "node4"]},
+    {"id": "mysql_pct_mut_all", "experiment": "ablation", "target": "mysql", "scheduler": "pct", "mode": "mut_all", "nodes": ["node5", "node6"]}
+  ]
+}

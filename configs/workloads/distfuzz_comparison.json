@@ -1,0 +1,84 @@
+{
+  "name": "distfuzz_comparison",
+  "description": "Tamias versus DistFuzz comparison for Figure 7. Each job is one config; nodes are assigned explicitly in this file.",
+  "defaults": {
+    "duration_minutes": 1440,
+    "deadline_grace_minutes": 45,
+    "trials": 10,
+    "concurrent_trials_per_node": 5
+  },
+  "jobs": [
+    {
+      "id": "etcd_tamias",
+      "experiment": "distfuzz_comparison",
+      "target": "etcd",
+      "system": "tamias",
+      "nodes": ["node1"],
+      "trials": 10,
+      "concurrent_trials_per_node": 5
+    },
+    {
+      "id": "etcd_distfuzz",
+      "experiment": "distfuzz_comparison",
+      "target": "etcd",
+      "system": "distfuzz",
+      "nodes": ["node2"],
+      "trials": 10,
+      "concurrent_trials_per_node": 5
+    },
+    {
+      "id": "nuraft_tamias",
+      "experiment": "distfuzz_comparison",
+      "target": "nuraft",
+      "system": "tamias",
+      "nodes": ["node3"],
+      "trials": 10,
+      "concurrent_trials_per_node": 5
+    },
+    {
+      "id": "nuraft_distfuzz",
+      "experiment": "distfuzz_comparison",
+      "target": "nuraft",
+      "system": "distfuzz",
+      "nodes": ["node4"],
+      "trials": 10,
+      "concurrent_trials_per_node": 5
+    },
+    {
+      "id": "redis_raft_tamias",
+      "experiment": "distfuzz_comparison",
+      "target": "redis_raft",
+      "system": "tamias",
+      "nodes": ["node5"],
+      "trials": 10,
+      "concurrent_trials_per_node": 5
+    },
+    {
+      "id": "redis_raft_distfuzz",
+      "experiment": "distfuzz_comparison",
+      "target": "redis_raft",
+      "system": "distfuzz",
+      "nodes": ["node6"],
+      "trials": 10,
+      "concurrent_trials_per_node": 5
+    },
+    {
+      "id": "braft_tamias",
+      "experiment": "distfuzz_comparison",
+      "target": "braft",
+      "system": "tamias",
+      "nodes": ["node7"],
+      "trials": 10,
+      "concurrent_trials_per_node": 5
+    },
+    {
+      "id": "braft_distfuzz",
+      "experiment": "distfuzz_comparison",
+      "target": "braft",
+      "system": "distfuzz",
+      "nodes": ["node8"],
+      "trials": 10,
+      "concurrent_trials_per_node": 5
+    }
+  ]
+}
